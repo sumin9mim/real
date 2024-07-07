@@ -5,10 +5,12 @@ import auth from "@/net/auth";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { loadTossPayments } from '@tosspayments/payment-widget-sdk';
+import { v4 as uuidv4 } from 'uuid';
+
 
 export default function Header() {
   const [user, setUser] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,12 +28,18 @@ export default function Header() {
     }
   };
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
+  const handlePayment = async () => {
+    const tossPayments = await loadTossPayments(test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm); // 클라이언트 키를 설정하세요.
+  const orderId = uuidv4(); // UUID를 사용하여 고유한 주문 ID 생성
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+    tossPayments.requestPayment('카드', {
+      amount: 5000, // 결제 금액 설정
+      orderId: orderId, // 주문 ID 설정
+      orderName: '충전', // 주문명 설정
+      customerName: user.displayName, // 고객명 설정
+      successUrl: 'http://localhost:3000/', // 결제 성공 시 리디렉션 URL 설정
+      failUrl: 'http://localhost:3000/', // 결제 실패 시 리디렉션 URL 설정
+    });
   };
 
   return (
@@ -40,7 +48,7 @@ export default function Header() {
         <div className='text-xl font-bold'>QuantumJump NoticeBoard</div>
         {user && (
           <button
-            onClick={handleShowModal}
+            onClick={handlePayment}
             className='bg-yellow-500 text-white font-bold text-sm px-3 py-1 rounded-full hover:bg-yellow-600 transition duration-300'
           >
             충전
@@ -70,31 +78,6 @@ export default function Header() {
           </div>
         )}
       </div>
-      {showModal && (
-        <Modal onClose={handleCloseModal}>
-          <div className="space-y-4">
-            <button className="bg-gray-200 w-full p-2 rounded">1,000원</button>
-            <button className="bg-gray-200 w-full p-2 rounded">5,000원</button>
-            <button className="bg-gray-200 w-full p-2 rounded">10,000원</button>
-            <button
-              className="mt-4 bg-gray-300 w-full p-2 rounded"
-              onClick={handleCloseModal}
-            >
-              닫기
-            </button>
-          </div>
-        </Modal>
-      )}
     </header>
-  );
-}
-
-function Modal({ onClose, children }) {
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded shadow-lg relative">
-        {children}
-      </div>
-    </div>
   );
 }
