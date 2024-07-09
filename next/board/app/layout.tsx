@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next";         //metadata 데이터를 위한 데이터
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });  //폰트
 
 export const metadata: Metadata = {
   title: "Create Next App",
