@@ -1,6 +1,9 @@
 import type { Metadata } from "next";         //metadata 데이터를 위한 데이터
 import { Inter } from "next/font/google";
 import "./globals.css";
+import './style/App.css';
+import './style/util.css';
+import './style/main.css';
 
 const inter = Inter({ subsets: ["latin"] });  //폰트
 
@@ -20,3 +23,4 @@ export default function RootLayout({
     </html>
   );
 }
+
