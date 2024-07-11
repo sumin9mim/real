@@ -1,24 +1,24 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "@/net/auth";
-import BaseLayout from "@/components/BaseLayout";
-import { useRouter } from "next/navigation";
+import BaseLayout from '@/components/BaseLayout';
+import auth from '@/net/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
   const submit = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((res) => {
-        router.push("/"); // 메인페이지로 이동!
+        router.push('/'); // 메인페이지로 이동!
       })
-      .catch((error:string) => {
+      .catch((error: string) => {
         console.warn(error);
-        alert("로그인에 실패했습니다.");
+        alert('로그인에 실패했습니다.');
       });
   };
 
@@ -59,5 +59,4 @@ export default function SignIn() {
         </div>
       </div>
     </BaseLayout>
-  );
-}
+  );yarn

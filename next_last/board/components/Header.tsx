@@ -1,10 +1,15 @@
-"use client";
+'use client';
 
-import { onAuthStateChanged, signOut, User as FirebaseUser } from 'firebase/auth';
-import auth from '@/net/auth'; // auth의 타입이 올바르게 정의되어 있어야 합니다.
-import { useEffect, useState } from 'react';
+import auth from '@/net/auth';
+import {
+  onAuthStateChanged,
+  signOut,
+  User as FirebaseUser,
+} from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+// auth의 타입이 올바르게 정의되어 있어야 합니다.
+import { useEffect, useState } from 'react';
 
 export default function Header() {
   const [user, setUser] = useState<FirebaseUser | null>(null);
@@ -19,9 +24,9 @@ export default function Header() {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      router.push("/sign-in"); // 로그아웃 후 로그인 페이지로 이동
+      router.push('/sign-in'); // 로그아웃 후 로그인 페이지로 이동
     } catch (error) {
-      console.error("로그아웃 중 에러 발생:", error);
+      console.error('로그아웃 중 에러 발생:', error);
     }
   };
 
@@ -30,12 +35,20 @@ export default function Header() {
       <div className='text-xl font-bold'>QuantumJump NoticeBoard</div>
       <div className='flex items-center'>
         {user ? (
-          <button
-            onClick={handleSignOut}
-            className='bg-red-500 text-white font-bold text-xs px-3 py-1 rounded-full hover:bg-red-600 transition duration-300'
-          >
-            로그아웃
-          </button>
+          <div className='flex space-x-4'>
+            <Link href='/mypage'>
+              <button className='bg-green-500 text-white font-bold text-sm px-3 py-1 rounded-full hover:bg-green-600 transition duration-300'>
+                내 정보
+              </button>
+            </Link>
+
+            <button
+              onClick={handleSignOut}
+              className='bg-red-500 text-white font-bold text-xs px-3 py-1 rounded-full hover:bg-red-600 transition duration-300'
+            >
+              로그아웃
+            </button>
+          </div>
         ) : (
           <div className='flex space-x-4'>
             <Link href='/sign-in'>
